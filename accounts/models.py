@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
+from django.db.models.fields.related import ForeignKey,OneToOneField
+from django.db.models.signals import post_save,pre_save
+from django.dispatch import receiver
+
 
 # Create your models here.
 
@@ -91,10 +95,29 @@ class UserProfile(models.Model):
     latitude = models.CharField(max_length=20,blank=True,null=True)
     longtitude = models.CharField(max_length=20,blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    modified_at=models.DateTimeField(auto_now_add=True)
+    modified_at=models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return self.user.email
     
+@receiver(post_save,sender=User)
+def post_save_create_profile_receiver(sender,instance,created,**kwargs):
+    print(created)
+    if created:
+        UserProfile.objects.create(user=instance)
+        print("User profile created ")
+    else:
+        try: 
+            profile = UserProfile.objects.get(user=instance)
+            profile.save()
+        except:
+            # create the user profile if not exists
+            UserProfile.objects.create(user=instance)    
+            print("Profile was not present, created one")    
+        print("User is updated")
+        
+@receiver(pre_save,sender=User)
+def pre_save_profile_receiver(sender,instance,**kwargs):
+    print(instance.username,'This user is being saved')
     
-
+        
