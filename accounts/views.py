@@ -13,6 +13,7 @@ import base64
 from django.contrib.auth.tokens import default_token_generator 
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
+
 # Restrict the vendor from accessing the customer page
 
 def check_role_vendor(user):
@@ -55,13 +56,15 @@ def registerUser(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = User.objects.create_user(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
-            user.ROLE = User.CUSTOMER
+            user.role = User.CUSTOMER
+            
             user.save()
             #send verification email
             mail_subject = 'Please activate your account'
+            print(mail_subject)
             email_template = 'accounts/emails/account_verification_email.html'
             send_verification_email(request,user,mail_subject,email_template)
-            messages.success(request,'Your account has been registered succesfully')
+            messages.success(request,'Your account has been registered succesfully!!!Please check your email to activate link')
             return redirect('registerUser')
         else:
             print('Invalid Form')
@@ -89,7 +92,7 @@ def registerVendor(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = User.objects.create_user(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
-            user.ROLE = User.VENDOR
+            user.role = User.VENDOR
             user.save()
             vendor = v_form.save(commit=False)
             vendor.user = user
@@ -100,7 +103,7 @@ def registerVendor(request):
             mail_subject = 'Please activate your account'
             email_template = 'accounts/emails/account_verification_email.html'
             send_verification_email(request,user,mail_subject,email_template)
-            messages.success(request, 'Your account has been registered successfully! Please wait for the apporval')
+            messages.success(request, 'Your account has been registered successfully! Please check your email to activate link')
             return redirect('registerVendor')
             
         else:
@@ -123,13 +126,15 @@ def activate(request, uidb64, token):
         #uid = base64.b64decode(uidb64).decode()
         uid = urlsafe_base64_decode(uidb64).decode()
         user = User._default_manager.get(pk=uid)
+        
     except(TypeError,ValueError,OverflowError,User.DoesNotExist):
         user = None
     
     if user is not None and default_token_generator.check_token(user,token):
         user.is_active = True
         user.save()
-        messages.success(request,'Congrulations!! Your account is activated')
+        
+        messages.success(request,'Congrulations!! Your account is activated successfully!!')
         return redirect('myAccount')
     else:
         messages.error(request,'Invalid activation link')
