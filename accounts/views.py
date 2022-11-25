@@ -106,7 +106,7 @@ def registerVendor(request):
             mail_subject = 'Please activate your account'
             email_template = 'accounts/emails/account_verification_email.html'
             send_verification_email(request,user,mail_subject,email_template)
-            messages.success(request, 'Your account has been registered successfully! Please check your email to activate link')
+            messages.success(request, 'Your account has been registered successfully!')
             return redirect('registerVendor')
             
         else:
@@ -137,7 +137,7 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         
-        messages.success(request,'Congrulations!! Your account is activated successfully!!')
+        messages.success(request,'Congratulations!! Your account is activated successfully!!  Please wait till the account is approved')
         return redirect('myAccount')
     else:
         messages.error(request,'Invalid activation link')
@@ -235,7 +235,7 @@ def reset_password(request):
             user.set_password(password)
             user.is_active = True
             user.save()
-            messages.success(request,'Password reset successfull')
+            messages.success(request,'Password reset successfully!!')
             return redirect('login')
          
         else:
