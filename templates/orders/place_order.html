@@ -32,8 +32,8 @@
                     </div>
                 </div>
                 <!-- Your order section -->
-                <!--
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                
+                {% comment %} <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                     <div class="tabs-holder horizontal">
                         <ul class="stickynav-tabs nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home"><i class="icon- icon-room_service"></i>Your Order</a></li>
@@ -46,30 +46,42 @@
                                         <ul>
                                     
                                             <li style="list-style-type: none;">
-                                                Subtotal
+                                                Subtotal in 
                                                 <span class="price float-right">
                                                     <span class="currency">$</span>
                                                     <span id="subtotal">{{subtotal}}</span>
                                                 </span>
                                             </li>
+
+                                            {% for key, value in tax_dict.items %}
+                                                {% for i, j in value.items %}
+                                                    <li style="list-style-type: none;">
+                                                        {{ key }} <small>({{ i }}%)</small>
+                                                        <span class="price float-right">
+                                                            <span class="currency">$</span>
+                                                            <span id="tax-{{ key }}">{{ j }}</span>
+                                                        </span>
+                                                    </li>
+                                                {% endfor %}
+                                            {% endfor %}
                                             
-                                            <li style="list-style-type: none;">
+                                            {% comment %} <li style="list-style-type: none;">
                                                 Tax
                                                 <span class="price float-right">
                                                     <span class="currency">$</span>
-                                                    <span id="subtotal">0</span>
+                                                    <span id="subtotal">{{tax}}</span>
                                                 </span>
-                                            </li> 
+                                            </li>  {% endcomment %}
                                             
                                             <li style="list-style-type: none; font-weight: 600;">
-                                                Total
+                                                Total amount
                                                 <span class="price float-right">
                                                     <span class="currency">$</span>
                                                     <span id="subtotal">{{ grand_total }}</span>
                                                 </span>
                                             </li>
 
-                                            <a href="{% url 'checkout' %}" class="btn btn-danger w-100 p-2 mt-3">PROCEED TO CHECKOUT</a>
+                                            <a href="{% url 'checkout' %}" class="btn btn-danger w-100 p-2 mt-3"> TO CHECKOUT</a>
 
                                         </ul>
                                     </div>
@@ -79,8 +91,8 @@
                             
                         </div>
                     </div>
-                </div>
-            -->
+                </div> {% endcomment %}
+            
                 
             </div>
         </div>

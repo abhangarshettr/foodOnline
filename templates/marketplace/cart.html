@@ -87,14 +87,27 @@
                                                     <span id="subtotal">{{subtotal}}</span>
                                                 </span>
                                             </li>
+
+                                            {% for key, value in tax_dict.items %}
+                                                {% for i, j in value.items %}
+                                                    <li style="list-style-type: none;">
+                                                        {{ key }} <small>({{ i }}%)</small>
+                                                        <span class="price float-right">
+                                                            <span class="currency">$</span>
+                                                            <span id="tax-{{ key }}">{{ j }}</span>
+                                                        </span>
+                                                    </li>
+                                                {% endfor %}
+                                            {% endfor %}
+
                                             
-                                            <li style="list-style-type: none;">
+                                            {% comment %} <li style="list-style-type: none;">
                                                 Tax
                                                 <span class="price float-right">
                                                     <span class="currency">$</span>
-                                                    <span id="subtotal">0</span>
+                                                    <span id="subtotal">{{tax}}</span>
                                                 </span>
-                                            </li> 
+                                            </li>  {% endcomment %}
                                             
                                             <li style="list-style-type: none; font-weight: 600;">
                                                 Total
