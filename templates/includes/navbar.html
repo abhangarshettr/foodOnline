@@ -88,10 +88,16 @@
 
                             {% else %}
                             
-                            <a class="cs-color cs-popup-joinus-btn login-popup" href="{% url 'login' %}">Login</a> / 
-                                <span><a href="{% url 'registerUser' %}" class="cs-color cs-popup-joinus-btn login-popup ml-0">Register</a></span><a class="get-start-btn" href="{% url 'registerVendor' %}">
+                            <!--<a class="cs-color cs-popup-joinus-btn login-popup" href="{% url 'login' %}">Login</a> / -->
+                            <a class="btn btn-outline-danger" href="{% url 'login' %}" role="button">Login</a>
+                                <span><a class="btn btn-outline-danger" href="{% url 'registerUser' %}" role="button">Register</a></span>
+
+                                <!--<span><a href="{% url 'registerUser' %}" class="cs-color cs-popup-joinus-btn login-popup ml-0">Register</a>-->
+                                <br><br>
+                                <a class="get-start-btn" href="{% url 'registerVendor' %}">
                                 Register
                                 Restaurant </a>
+                                <br>"{% url 'registerUser' %}
                             {% endif %}
                             <br>
                         </div>
